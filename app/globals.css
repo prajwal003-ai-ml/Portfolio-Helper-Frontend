@@ -24,3 +24,16 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.prespeciveNess{
+  perspective: 1000px;
+}
+
+.glass{
+  filter: blur(.3);
+  
+  &:hover{
+    box-shadow: 3 9  9px  rgba(128, 128, 128, 0.267);
+    
+  }
+}
