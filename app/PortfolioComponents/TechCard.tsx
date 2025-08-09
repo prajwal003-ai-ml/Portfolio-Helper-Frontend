@@ -22,7 +22,7 @@ const TechCard = ({ Skill = '[SkillName]', idx }: data) => {
                 }
             }}
             viewport={{ once: true }}
-            className='py-1 px-5 text-sm rounded-xl cursor-pointer hover:bg-gradient-to-bl transition-shadow duration-300 bg-gradient-to-l via-gray-800  from-gray-600 to-gray-900 glass border border-solid border-gray-800'>{Skill}</motion.div>
+            className='py-1 px-5 text-sm rounded-xl cursor-pointer hover:bg-gradient-to-bl transition-shadow duration-300 bg-gradient-to-l bg-[#00000067] glass border border-solid border-gray-800'>{Skill}</motion.div>
     )
 }
 
