@@ -10,13 +10,36 @@ import Footer from '../PortfolioComponents/Footer'
 const page = () => {
   return (
     <div>
-      <Home/>
-      <About/>
-      <CheckMyResume/>
-      <Skill/>
-      <Projects/>
-      <GetInTouch/>
-      <Footer/>
+      <Home Name='[Your Name]' Image='https://otakukart.com/wp-content/uploads/2023/12/Gojo-Satoru-2.jpg' Title='[Title Here]' />
+      <About Image="https://tse1.mm.bing.net/th/id/OIP.YGc5ZMk_CWUB9CuIVJlPJwHaEK?pid=Api&P=0&h=220"
+        About="[ I’m a passionate web developer who loves turning ideas into interactive, user-friendly digital experiences. Skilled in modern technologies and always eager to learn, I aim to create applications that are both functional and visually engaging. This section is just a placeholder — replace it with your own story soon! ]"
+        Links={{ Facebook: '#', Github: "#", LinkedIn: '#' }} />
+      <CheckMyResume DocxLink='#' />
+      <Skill Skills={[]} />
+      <Projects Projects={[{
+        Image: 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/05/jujutsu-kaisen-gojo-223.jpg',
+        Details: "This is dummy details details is all about your project this is necessary part so please fill up",
+        Reason: 'Usually here you write what is the reason to make that projects',
+        Github: '#',
+        Live: '#',
+        TechStack: ['stack1', 'stack2', 'stack3', 'stack4'],
+      }, {
+        Image: 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/07/gojo-from-jjk-anime-against-a-2-way-split-of-gojo-from-the-manga.jpg',
+        Details: "This is dummy details details is all about your project this is necessary part so please fill up",
+        Reason: 'Usually here you write what is the reason to make that projects',
+        Github: '#',
+        Live: '#',
+        TechStack: ['stack1', 'stack2', 'stack3', 'stack4'],
+      }, {
+        Image: 'https://static0.gamerantimages.com/wordpress/wp-content/uploads/2025/01/gojo-cursed-technique.jpg',
+        Details: "This is dummy details details is all about your project this is necessary part so please fill up",
+        Reason: 'Usually here you write what is the reason to make that projects',
+        Github: '#',
+        Live: '#',
+        TechStack: ['stack1', 'stack2', 'stack3', 'stack4'],
+      }]} />
+      <GetInTouch Email="#" />
+      <Footer Facebook='#' Github = "#" Instagram = "#" LinkedIn = "#" Phone = "9800000000" Twitter = "#" Whatsapp = "9800000000" Youtube = "#"/>
     </div>
   )
 }

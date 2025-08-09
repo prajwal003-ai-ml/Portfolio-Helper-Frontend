@@ -4,7 +4,6 @@ import { motion , Variants} from 'framer-motion'
 
 interface Data {
     Name: string;
-    About: string;
     Title: string;
     Image: string;
 }
@@ -40,7 +39,6 @@ const imageVariants:Variants = {
 
 const Home = ({
     Name = "[Your Name]",
-    About = "This is a placeholder for your About section. Here you can write about yourself, your background, skills, passions, and what makes you unique. Use this space to introduce yourself to visitors and let them know what you do. Replace this text with your real About content when ready.",
     Image = "https://otakukart.com/wp-content/uploads/2023/12/Gojo-Satoru-2.jpg",
     Title = "[Title Here]",
 }: Data) => {
