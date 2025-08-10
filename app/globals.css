@@ -37,3 +37,31 @@ body {
     
   }
 }
+
+.input{
+  display: flex;
+  gap: 4px;
+  flex-direction: column;
+}
+
+.input label{
+  font-weight: bold;
+  font-size: large;
+  color: rgb(211, 206, 206);
+}
+
+.input input,textarea{
+  border: 1.3px solid rgba(128, 128, 128, 0.301);
+  border-radius: 6px;
+  padding: 2px;
+  outline: none;
+  width:100%;
+  font-weight: lighter;
+  min-width: 18rem;
+  background: #e6e0e007;
+}
+
+.input textarea{
+    height: 10rem;
+    width: 100%;
+}

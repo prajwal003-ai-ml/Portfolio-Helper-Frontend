@@ -15,9 +15,10 @@ interface data {
     Live: string;
     TechStack: string[]
     idx: number;
+    Name:string;
 }
 
-const ProjectCard = ({ Image = '#', idx, Details = 'This is dummy details details is all about your project this is necessary part so please fill up', Github = "#", Live = "#", Reason = "Usually here you write what is the reason to make that projects", TechStack = ['stack1', 'stack2', 'stack3', 'stack4'] }: data) => {
+const ProjectCard = ({Name='[Project Name]', Image = '#', idx, Details = 'This is dummy details details is all about your project this is necessary part so please fill up', Github = "#", Live = "#", Reason = "Usually here you write what is the reason to make that projects", TechStack = ['stack1', 'stack2', 'stack3', 'stack4'] }: data) => {
     return (
         <motion.div initial={{
             opacity: 0,
@@ -37,6 +38,10 @@ const ProjectCard = ({ Image = '#', idx, Details = 'This is dummy details detail
           className='flex flex-col gap-1 w-full sm:w-[26rem] bg-gray-950 rounded  py-3 px-1 h-full'
         >
             <img src={Image} alt="." className='bg-gray-800 rounded h-80 w-full object-center object-cover ' />
+
+            <h2 className='font-semibold text-xl py-2'>
+                {Name}
+            </h2>
             <p className='text-justify  px-1 text-sm text-gray-200'>
                 {Details}
             </p>
