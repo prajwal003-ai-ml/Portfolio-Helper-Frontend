@@ -17,29 +17,32 @@ const page = () => {
       <CheckMyResume DocxLink='#' />
       <Skill Skills={[]} />
       <Projects Projects={[{
-        Image: 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/05/jujutsu-kaisen-gojo-223.jpg',
+        Image: '#',
         Details: "This is dummy details details is all about your project this is necessary part so please fill up",
         Reason: 'Usually here you write what is the reason to make that projects',
         Github: '#',
         Live: '#',
         TechStack: ['stack1', 'stack2', 'stack3', 'stack4'],
+        Name: '[Project Name]'
       }, {
-        Image: 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/07/gojo-from-jjk-anime-against-a-2-way-split-of-gojo-from-the-manga.jpg',
+        Image: '#',
         Details: "This is dummy details details is all about your project this is necessary part so please fill up",
         Reason: 'Usually here you write what is the reason to make that projects',
         Github: '#',
         Live: '#',
         TechStack: ['stack1', 'stack2', 'stack3', 'stack4'],
+        Name: '[Project Name]'
       }, {
-        Image: 'https://static0.gamerantimages.com/wordpress/wp-content/uploads/2025/01/gojo-cursed-technique.jpg',
+        Image: '#',
         Details: "This is dummy details details is all about your project this is necessary part so please fill up",
         Reason: 'Usually here you write what is the reason to make that projects',
         Github: '#',
         Live: '#',
         TechStack: ['stack1', 'stack2', 'stack3', 'stack4'],
+        Name: '[Project Name]'
       }]} />
       <GetInTouch Email="#" />
-      <Footer Facebook='#' Github = "#" Instagram = "#" LinkedIn = "#" Phone = "9800000000" Twitter = "#" Whatsapp = "9800000000" Youtube = "#"/>
+      <Footer Facebook='#' Github="#" Instagram="#" LinkedIn="#" Phone="9800000000" Twitter="#" Whatsapp="9800000000" Youtube="#" />
     </div>
   )
 }
