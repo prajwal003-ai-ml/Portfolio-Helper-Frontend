@@ -14,8 +14,8 @@ interface UserState {
 }
 
 export const useUserdata = create<UserState>((set) => ({
-  user: { Name: "", Email: "", IsVerified: false }, // default values
-  IsAuthorized: false,
+  user: { Name: "", Email: "", IsVerified: true }, // default values
+  IsAuthorized: true,
   setUser: (user) => set({ user }),
   setAuthorized: (status) => set({ IsAuthorized: status }),
 }));

@@ -58,7 +58,7 @@ const Home = ({
     }
 
     return (
-        <div className="border-b border-solid border-gray-700 pb-6">
+        <div className="border-b border-solid border-gray-700 pb-6 py-12 ">
             <motion.div
                 className="min-h-[78dvh] flex gap-4 flex-col md:flex-row justify-center md:justify-between md:px-6 items-center"
                 variants={containerVariants}

@@ -11,7 +11,7 @@ const Navbar = () => {
     const setIsopen = useNavData((s)=>s.setIsopen)
   return (
     <div className='z-30 flex bg-black justify-between items-center px-4 md:px-8 fixed top-0 left-0 right-0 h-14 border-b border-solid border-gray-600'>
-        <Link className='text-lg font-semibold text-gray-200 select-none' href={'/'}>Portfolio <span className='text-orange-500'>Helper</span> </Link>
+        <Link className='text-lg font-semibold text-gray-200 select-none' href={'/admin'}>Portfolio <span className='text-orange-500'>Helper</span> </Link>
         <button onClick={()=>{
             setIsopen(!isOpen)
         }}>

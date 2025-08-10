@@ -26,9 +26,6 @@ const SideBar = () => {
                <Link href={'/add-data'} className='bg-[#8080802d] hover:bg-[#80808048] p-2 flex justify-center items-center w-[19rem] rounded-2xl'>
                   Manage Data
                </Link>
-               <Link href={'/user'} className='bg-[#8080802d] hover:bg-[#80808048] p-2 flex justify-center items-center w-[19rem] rounded-2xl'>
-                  Manage user
-               </Link>
                <Link href={'/portfolio'} className='bg-[#8080802d] hover:bg-[#80808048] p-2 flex justify-center items-center w-[19rem] rounded-2xl'>
                   Public Portfolio
                </Link>

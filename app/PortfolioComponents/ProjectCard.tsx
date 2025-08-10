@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import SkillCard from './SkillCard';
 import { IoLogoGithub, IoLogoWebComponent } from 'react-icons/io5';
 import Link from 'next/link';
 import TechCard from './TechCard';

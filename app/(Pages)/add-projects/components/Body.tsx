@@ -14,6 +14,7 @@ interface ProjectData {
     TechStack: string[];
     Github: string;
     Live: string;
+    ShowAtHome:boolean
 }
 
 export default function Body() {
@@ -25,6 +26,7 @@ export default function Body() {
         TechStack: [],
         Github: "",
         Live: "",
+        ShowAtHome:false
     });
 
     const [ImageLink, setImageLink] = useState('')
@@ -176,6 +178,14 @@ export default function Body() {
                     Reason:
                 </label>
                 <textarea id="Reason" name="Reason" onChange={handleChange} placeholder="Reason Of Project" />
+            </div>
+            <div className="mt-2">
+                    <input type="checkbox" id="CheckBox" checked={data.ShowAtHome} onChange={()=>{
+                        setData(p=>({
+                            ...p,
+                            ShowAtHome:!data.ShowAtHome
+                        }))
+                    }} /> <label htmlFor="CheckBox"> Show At Home</label>
             </div>
             <button onClick={HandleSubmit} className="p-3 my-4 w-full bg-[#ffffff10] cursor-pointer rounded-xl font-semibold text-sm">
                 {Loading?"Submiting...":'Submit'}
