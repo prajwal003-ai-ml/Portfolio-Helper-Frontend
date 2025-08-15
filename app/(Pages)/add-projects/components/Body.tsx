@@ -185,7 +185,7 @@ export default function Body() {
                             ...p,
                             ShowAtHome:!data.ShowAtHome
                         }))
-                    }} /> <label htmlFor="CheckBox"> Show At Home</label>
+                    }} /> <label htmlFor="CheckBox"> Mark as Special</label>
             </div>
             <button onClick={HandleSubmit} className="p-3 my-4 w-full bg-[#ffffff10] cursor-pointer rounded-xl font-semibold text-sm">
                 {Loading?"Submiting...":'Submit'}

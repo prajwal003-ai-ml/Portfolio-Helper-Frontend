@@ -1,21 +1,47 @@
 'use client'
+import api from '@/app/axios'
+import { User, useUserdata } from '@/app/contexts/userdata'
 import Link from 'next/link'
 import React, { useState } from 'react'
+import { toast } from 'react-toastify'
 
 const page = () => {
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
   const [Loading, setLoading] = useState(false)
 
+  const setUser = useUserdata(s => s.setUser)
+  const setAuthorized = useUserdata(s => s.setAuthorized)
+
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
 
-    
-    setTimeout(() => {
+    try {
+      if (!Email || !Password) {
+        throw new Error('Fill The Form Properly')
+      }
+      const data = await api.post('/auth/login', { Email, Password })
+
+      const token = data?.data.Token
+
+      const user: User = data?.data
+
+      console.log(user)
+
+      setUser(user)
+
+      setAuthorized(true)
+
+      localStorage.setItem('Token', token)
+
+      toast.success('Succesfuly Registered')
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error?.message || "Something went Wrong")
+    }
+    finally {
       setLoading(false)
-      alert(`Logged in with Email: ${Email} and Password: ${Password}`)
-    }, 2000)
+    }
   }
 
   return (
@@ -47,7 +73,7 @@ const page = () => {
           {Loading ? 'Logging in...' : 'Login'}
         </button>
         <div className='text-sm text-gray-500 mt-2 text-center'>
-          <div  className='text-orange-700 cursor-pointer'>Forgot Password?</div>
+          <div className='text-orange-700 cursor-pointer'>Forgot Password?</div>
         </div>
       </form>
     </div>

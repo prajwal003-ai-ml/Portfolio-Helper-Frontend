@@ -1,21 +1,48 @@
 'use client'
+import api from '@/app/axios'
+import { User, useUserdata } from '@/app/contexts/userdata'
 import Link from 'next/link'
 import React, { useState } from 'react'
+import { toast } from 'react-toastify'
 
 const page = () => {
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
+  const [Name, setName] = useState('')
   const [Loading, setLoading] = useState(false)
+
+  const setUser = useUserdata(s=>s.setUser)
+  const setAuthorized = useUserdata(s=>s.setAuthorized)
+
+
 
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
+    try {
+      if(!Name ||!Email || !Password){
+        throw new Error('Fill The Form Properly')
+      }
+      const data = await api.post('/auth/register',{Name,Email,Password})
 
-    
-    setTimeout(() => {
+      const token = data?.data.Token
+
+      const user:User = data?.data
+
+      setUser(user)
+
+      setAuthorized(true)
+
+      localStorage.setItem('Token',token)
+
+      toast.success('Succesfuly Registered')
+
+    } catch (error:any) {
+      toast.error(error.response?.data.message||error?.message)
+    }
+    finally{
       setLoading(false)
-      alert(`Logged in with Email: ${Email} and Password: ${Password}`)
-    }, 2000)
+    }
   }
 
   return (
@@ -24,6 +51,13 @@ const page = () => {
         Register
       </h2>
       <form onSubmit={HandleSubmit}>
+        <input
+          type="text"
+          placeholder="Name"
+          value={Name}
+          onChange={(e) => setName(e.target.value)}
+          className="mb-2 w-full p-2 border border-gray-300 rounded outline-none "
+        />
         <input
           type="email"
           placeholder="Email"
