@@ -30,7 +30,7 @@ export default function LandingPage() {
       </motion.div>
 
       {/* Hero Section */}
-      <section className="pt-28 md:pt-36 px-6 md:px-12 lg:px-24 text-center">
+      <section className="pt-28 md:pt-36 px-6 md:px-12 lg:px-24 text-center flex justify-between items-center flex-col gap-3">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -52,6 +52,10 @@ export default function LandingPage() {
           boilerplate.
         </motion.p>
 
+        <Link href={'/admin'} className="bg-orange-500 py-3 px-16 md:px-32 transition-all duration-500 mt-4 hover:bg-transparent hover:text-orange-400 border border-solid border-orange-400">
+          Get Started
+        </Link>
+
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -67,6 +71,8 @@ export default function LandingPage() {
           />
         </motion.div>
       </section>
+
+
 
       {/* Features Section */}
       <section className="py-16 px-6 md:px-12 lg:px-24">
