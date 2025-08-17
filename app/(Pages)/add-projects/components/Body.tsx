@@ -9,6 +9,8 @@ import { IoAdd, IoImage } from "react-icons/io5";
 import { MdClear } from "react-icons/md";
 import { toast } from "react-toastify";
 
+import imageCompression from "browser-image-compression";
+
 interface ProjectData {
     Name: string;
     Image: File | null; // can be null initially
@@ -50,16 +52,30 @@ export default function Body() {
         }));
     };
 
+     const options = {
+      maxSizeMB: 1,           // target max size in MB
+      maxWidthOrHeight: 1080, // resize if larger than 1080px
+      useWebWorker: true,     // for performance
+    };
+
     // Handle file change
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] ?? null;
+
+        if (!file) {
+            return;
+        }
         if (file) {
             const temp = URL.createObjectURL(file);
             setImageLink(temp)
         }
+
+        const compressedFile = await imageCompression(file, options);
+
+
         setData((prev) => ({
             ...prev,
-            Image: file,
+            Image: compressedFile,
         }));
     };
 

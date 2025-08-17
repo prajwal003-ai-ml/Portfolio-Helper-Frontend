@@ -36,7 +36,6 @@ const page = () => {
         setdata(data.data)
         setProjects(data.Project)
 
-        console.log(data)
       }).
       catch(() => {
         toast.error('Failed to Fetch Sorry')

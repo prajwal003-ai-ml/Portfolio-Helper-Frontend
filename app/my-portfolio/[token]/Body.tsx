@@ -24,10 +24,15 @@ const Body = () => {
 
     const params = useParams()
 
+    
+
     useEffect(() => {
         api.get(`get-all/${params.token}`)
             .then((res) => {
                 const data = res.data
+
+                console.log(res)
+
                 setdata(data.data)
                 setProjects(data.Project)
             }).

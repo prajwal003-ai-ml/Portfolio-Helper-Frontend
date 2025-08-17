@@ -8,6 +8,8 @@ import { IoAdd, IoDocument, IoImage, IoTrash } from 'react-icons/io5'
 import { MdClear } from 'react-icons/md'
 import { toast } from 'react-toastify'
 
+import imageCompression from "browser-image-compression";
+
 // Interface for form data
 export interface Data {
     id?: number
@@ -74,15 +76,28 @@ const Body = () => {
         setData(prev => ({ ...prev, [name]: value }))
     }
 
+    const options = {
+        maxSizeMB: 1,           // target max size in MB
+        maxWidthOrHeight: 1080, // resize if larger than 1080px
+        useWebWorker: true,     // for performance
+    };
+
     // Handle adding image and generating preview
-    const HandleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const HandleAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null
         const { name } = e.target
 
         let link = ''
         if (file) link = URL.createObjectURL(file)
 
-        setData(prev => ({ ...prev, [name]: file }))
+        if (!file) {
+            return
+        }
+
+        const compressedFile = await imageCompression(file, options);
+
+
+        setData(prev => ({ ...prev, [name]: compressedFile }))
         setImages(prev => ({ ...prev, [name]: link }))
     }
 
@@ -118,6 +133,15 @@ const Body = () => {
         let file = null
         if (e.target.files) {
             file = e.target.files?.[0]
+        }
+
+        if (!file) {
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+            toast.info('file should be less than 2mb')
+            return;
         }
         setData(prev => ({
             ...prev,
