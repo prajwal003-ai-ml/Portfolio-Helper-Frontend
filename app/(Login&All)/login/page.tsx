@@ -27,15 +27,13 @@ const page = () => {
 
       const user: User = data?.data
 
-      console.log(user)
-
       setUser(user)
 
       setAuthorized(true)
 
       localStorage.setItem('Token', token)
 
-      toast.success('Succesfuly Registered')
+      toast.success('Succesfuly Logged In')
     } catch (error: any) {
       toast.error(error?.response?.data?.message || error?.message || "Something went Wrong")
     }
