@@ -33,7 +33,9 @@ const page = () => {
 
       localStorage.setItem('Token', token)
 
-      toast.success('Succesfuly Logged In')
+      toast.success('Succesfuly Logged ! Sorry For Reload😭')
+
+      window.location.reload()
     } catch (error: any) {
       toast.error(error?.response?.data?.message || error?.message || "Something went Wrong")
     }
