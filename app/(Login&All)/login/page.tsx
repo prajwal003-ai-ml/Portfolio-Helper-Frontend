@@ -95,11 +95,11 @@ const page = () => {
             Don't have an account? <Link href='/register' className='text-orange-700'>Register</Link>
           </p>
         </div>
-        <button className='w-full p-2 border border-gray-700 rounded bg-[#ffffff18] text-white cursor-pointer hover:bg-[#ffffff2c]' type="submit">
+        <button  className='w-full p-2 border border-gray-700 rounded bg-[#ffffff18] text-white cursor-pointer hover:bg-[#ffffff2c]' type="submit">
           {Loading ? 'Logging in...' : 'Login'}
         </button>
         <div className='text-sm text-gray-500 mt-2 text-center'>
-          <button onClick={sendEmail} className='text-orange-700 cursor-pointer'>{LoadingForget?"Sending Email":"Forgot Password?"}</button>
+          <div onClick={sendEmail} className='text-orange-700 cursor-pointer'>{LoadingForget?"Sending Email":"Forgot Password?"}</div>
         </div>
       </form>
     </div>
