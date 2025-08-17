@@ -44,6 +44,32 @@ const page = () => {
     }
   }
 
+  const [LoadingForget, setLoadingForget] = useState(false)
+
+  const sendEmail = async()=>{
+
+    if(LoadingForget){
+      return
+    }
+    if(!Email){
+      toast('Please add Email and Click Forget Password')
+      return 
+    }
+    try {
+      setLoadingForget(true)
+
+      const send = await api.get(`/auth/send-email-forget-password/${Email}`)
+
+      toast.success('Please Check Your Email')
+      
+    } catch (error) {
+      toast.error('Failed To Send Email , Try Remebering Password')
+    }
+    finally{
+      setLoadingForget(false)
+    }
+  }
+
   return (
     <div>
       <h2 className='text-2xl text-center font-bold mb-4'>
@@ -73,7 +99,7 @@ const page = () => {
           {Loading ? 'Logging in...' : 'Login'}
         </button>
         <div className='text-sm text-gray-500 mt-2 text-center'>
-          <div className='text-orange-700 cursor-pointer'>Forgot Password?</div>
+          <button onClick={sendEmail} className='text-orange-700 cursor-pointer'>{LoadingForget?"Sending Email":"Forgot Password?"}</button>
         </div>
       </form>
     </div>
