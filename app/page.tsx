@@ -138,7 +138,7 @@ export default function LandingPage() {
           className="max-w-lg mx-auto bg-black/40 rounded-2xl shadow-lg p-6 border border-gray-800"
         >
           <Image
-            src="/home.jpg" // add your own photo
+            src="/HomeImage.jpg" // add your own photo
             alt="Developer"
             width={120}
             height={120}
