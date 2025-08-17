@@ -31,6 +31,8 @@ const page = () => {
                 password:Password
             })
 
+            console.log(params.token)
+
 
             toast.success('Please Now Login With New Password')
             navigate.push('/login')
