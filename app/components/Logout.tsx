@@ -27,7 +27,7 @@ const Logout = () => {
                         Decline
                     </button>
                     <button onClick={()=>{
-                        localStorage.removeItem('token')
+                        localStorage.removeItem('Token')
                         window.location.reload()
                     }} className='text-sm font-semibold p-1 px-4 rounded bg-blue-900 cursor-pointer'>
                         Logout
