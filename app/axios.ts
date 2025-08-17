@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Base URL of your backend
 const api = axios.create({
-  baseURL:process.env.BACKEND_URL_RENDER || "http://localhost:8000/api", // adjust to your routes
+  baseURL:"https://portfolio-helper-backend.onrender.com/api", // adjust to your routes
 });
 
 // Request interceptor to attach token
