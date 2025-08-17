@@ -26,7 +26,10 @@ const Logout = () => {
                     <button onClick={HandleOutSideClick} className='text-sm font-semibold p-1 px-4 rounded bg-gray-700 cursor-pointer'>
                         Decline
                     </button>
-                    <button onClick={HandleOutSideClick} className='text-sm font-semibold p-1 px-4 rounded bg-blue-900 cursor-pointer'>
+                    <button onClick={()=>{
+                        localStorage.removeItem('token')
+                        window.location.reload()
+                    }} className='text-sm font-semibold p-1 px-4 rounded bg-blue-900 cursor-pointer'>
                         Logout
                     </button>
             </div>

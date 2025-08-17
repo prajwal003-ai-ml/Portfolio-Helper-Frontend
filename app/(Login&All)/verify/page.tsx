@@ -1,13 +1,30 @@
 'use client'
 import api from '@/app/axios'
-import React, { useState } from 'react'
+import LoadingComponent from '@/app/components/Loading'
+import { useUserdata } from '@/app/contexts/userdata'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 
 
 const page = () => {
 
     const [Loading, setLoading] = useState(false)
+    const [LoadingPage, setLoadingPage] = useState(false)
     const [Message, setMessage] = useState('if its first time just click resend email')
+
+    const user = useUserdata(s=>s.user)
+
+    const navigate = useRouter()
+
+    useEffect(()=>{
+        if(user.IsVerified){
+            navigate.push('/admin')
+        }else{
+            setLoadingPage(false)
+        }
+
+    },[])
 
     const HandleSendEmail =async ()=>{
         if(Loading){
@@ -23,6 +40,8 @@ const page = () => {
             setLoading(false)
         }
     }
+
+    if(LoadingPage) return <LoadingComponent/>
     return (
         <div className='w-full' >
             <div className='flex flex-col items-center justify-center h-full'>
