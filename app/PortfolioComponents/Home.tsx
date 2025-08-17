@@ -1,6 +1,7 @@
 'use client'
 import React, { useRef } from "react";
 import { motion , Variants} from 'framer-motion'
+import Link from "next/link";
 
 interface Data {
     Name: string;
@@ -102,7 +103,7 @@ const Home = ({
                         ref={refMe}
                         src={Image}
                         alt="Image here"
-                        className="h-96 w-[29rem] bg-gray-700 rounded-2xl cursor-pointer transition-all duration-100"
+                        className="h-96 w-[29rem] bg-gray-700 rounded-2xl cursor-pointer object-center object-cover transition-all duration-100"
                     />
                 </motion.div>
             </motion.div>
@@ -114,7 +115,7 @@ const Home = ({
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className="text-center font-semibold text-xs text-gray-700 mt-6"
             >
-                This is Based On Your Data Developed BY Prajwal
+               All Right Reserved ©, <Link className="font-bold hover:underline" href={'/'}>Create Yours</Link>
             </motion.h3>
         </div>
     );

@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
-interface DialogData {
+export interface DialogData {
     Accept: () => void;
     Reject: () => void;
     Title: string;
     Description: string;
-}
+} 
 
 interface DialogStore {
     isShowing: boolean;

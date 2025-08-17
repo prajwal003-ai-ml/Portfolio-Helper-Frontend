@@ -5,6 +5,7 @@ export interface User {
   Name: string;
   Email: string;
   IsVerified: boolean;
+  Token:string
 }
 
 interface UserState {
@@ -15,8 +16,8 @@ interface UserState {
 }
 
 export const useUserdata = create<UserState>((set) => ({
-  user: {id:0 , Name: "", Email: "", IsVerified: true }, // default values
-  IsAuthorized: true,
+  user: {id:0 , Name: "", Email: "", IsVerified: false,Token:'' }, // default values
+  IsAuthorized: false,
   setUser: (user) => set({ user }),
   setAuthorized: (status) => set({ IsAuthorized: status }),
 }));

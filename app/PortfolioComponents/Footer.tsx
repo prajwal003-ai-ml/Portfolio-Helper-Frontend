@@ -11,10 +11,9 @@ interface data {
     Github: string
     LinkedIn: string
     Twitter: string
-    Youtube: string
 }
 
-const Footer = ({ Facebook = '#', Github = "#", Instagram = "#", LinkedIn = "#", Phone = "9800000000", Twitter = "#", Whatsapp = "9800000000", Youtube = "#" }: data) => {
+const Footer = ({ Facebook = '#', Github = "#", Instagram = "#", LinkedIn = "#", Phone = "9800000000", Twitter = "#", Whatsapp = "9800000000" }: data) => {
     return (
         <div className=' border-t border-solid border-gray-700 py-12 '>
             <h3 className='text-center font-semibold text-2xl pb-7'>
@@ -37,9 +36,6 @@ const Footer = ({ Facebook = '#', Github = "#", Instagram = "#", LinkedIn = "#",
                 </Link>
                 <Link target='_blank' href={LinkedIn} className='text-gray-400 font-black text-sm flex justify-center items-center'>
                     <FaLinkedin size={'2rem'} className='text-blue-700' /> 
-                </Link>
-                <Link target='_blank' href={Youtube} className='text-gray-400 font-black text-sm flex justify-center items-center'>
-                    <FaYoutube size={'2rem'} className='text-red-700' /> 
                 </Link>
                 <Link target='_blank' href={Github} className='text-gray-400 font-black text-sm flex justify-center items-center'>
                     <FaGithub size={'2rem'} className='text-slate-900' /> 

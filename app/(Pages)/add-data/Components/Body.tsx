@@ -1,11 +1,16 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import api from '@/app/axios'
+import LoadingComponent from '@/app/components/Loading'
+import { useInformationStore } from '@/app/contexts/UseUserInfo'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoAdd, IoDocument, IoImage, IoTrash } from 'react-icons/io5'
 import { MdClear } from 'react-icons/md'
+import { toast } from 'react-toastify'
 
 // Interface for form data
-interface Data {
+export interface Data {
+    id?: number
     Name: string
     Title: string
     HomeImage: File | null
@@ -19,30 +24,32 @@ interface Data {
     Github: string
     Twitter: string
     LinkedIn: string
-    Youtube: string
     Email: string
     Resume: File | null
 }
 
 const Body = () => {
     // Main form data state
+
+    const [LoadingPage, setLoadingPage] = useState(true)
+
+    const myData = useInformationStore(s => s.information)
     const [Data, setData] = useState<Data>({
-        Name: '',
-        Title: '',
+        Name: myData?.name || "",
+        Title: myData?.title || "",
         HomeImage: null,
         AboutImage: null,
-        About: '',
-        Skills: [],
-        Contact: '',
-        Whatsapp: '',
-        Facebook: '',
-        Instagram: '',
-        Twitter: '',
-        LinkedIn: '',
-        Youtube: '',
-        Email: '',
+        About: myData?.about || "",
+        Skills: myData?.skills || [],
+        Contact: myData?.contact || "",
+        Whatsapp: myData?.whatsapp || "",
+        Facebook: myData?.facebook || "",
+        Instagram: myData?.instagram || "",
+        Twitter: myData?.twitter || "",
+        LinkedIn: myData?.linkedin || "",
+        Email: myData?.email || "",
         Resume: null,
-        Github: ''
+        Github: myData?.github || "",
     })
 
     // Preview images for Home & About
@@ -125,17 +132,127 @@ const Body = () => {
             Resume: null
 
         }))
-        if(ResumeRef.current){
+        if (ResumeRef.current) {
             ResumeRef.current.value = ''
         }
     }
 
-    const SubmitForm = () => {
-        if (Loading) {
-            return
-        }
+    //manage store of data 
+
+    const isFetched = useInformationStore(s => s.isFetched)
+    const SetFetched = useInformationStore(s => s.setIsFetched)
+    const setDataInStore = useInformationStore(s => s.setInformation)
+
+    const SubmitForm = async () => {
+        if (Loading) return
         setLoading(true)
+
+        try {
+            const formData = new FormData()
+
+            // Append non-file fields (lowercase keys)
+            formData.append("name", Data.Name)
+            formData.append("title", Data.Title)
+            formData.append("about", Data.About)
+            formData.append("contact", Data.Contact)
+            formData.append("whatsapp", Data.Whatsapp)
+            formData.append("facebook", Data.Facebook)
+            formData.append("instagram", Data.Instagram)
+            formData.append("github", Data.Github)
+            formData.append("twitter", Data.Twitter)
+            formData.append("linkedin", Data.LinkedIn)
+            formData.append("email", Data.Email)
+
+            // Append skills as JSON or array string
+            formData.append("skills", JSON.stringify(Data.Skills))
+
+            // Append files only if selected
+            if (Data.HomeImage) formData.append("homeimage", Data.HomeImage)
+            if (Data.AboutImage) formData.append("aboutimage", Data.AboutImage)
+            if (Data.Resume) formData.append("resume", Data.Resume)
+
+            const res = await api.post('/manage-my-data', formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+
+            const dataNew = res.data.data
+
+            setDataInStore(dataNew)
+
+            toast.success("Yeahhh Added Succesfully There")
+
+            setData({
+                Name: myData?.name || "",
+                Title: myData?.title || "",
+                HomeImage: null,
+                AboutImage: null,
+                About: myData?.about || "",
+                Skills: myData?.skills || [],
+                Contact: myData?.contact || "",
+                Whatsapp: myData?.whatsapp || "",
+                Facebook: myData?.facebook || "",
+                Instagram: myData?.instagram || "",
+                Twitter: myData?.twitter || "",
+                LinkedIn: myData?.linkedin || "",
+                Email: myData?.email || "",
+                Resume: null,
+                Github: myData?.github || "",
+            })
+
+            setImages({ AboutImage: "", HomeImage: "" })
+
+        } catch (err: any) {
+            toast.error(err.response.data.message || err.message || 'Failed To Load')
+        } finally {
+            setLoading(false)
+        }
     }
+
+
+
+    useEffect(() => {
+        if (isFetched) {
+            setLoadingPage(false)
+        } else {
+            api.get('/get-my-data')
+                .then(res => {
+                    const dataOfAll = res.data.data
+
+                    setDataInStore(dataOfAll)
+                    SetFetched()
+                    setData({
+                        Name: dataOfAll?.name || "",
+                        Title: dataOfAll?.title || "",
+                        HomeImage: null,
+                        AboutImage: null,
+                        About: dataOfAll?.about || "",
+                        Skills: dataOfAll?.skills || [],
+                        Contact: dataOfAll?.contact || "",
+                        Whatsapp: dataOfAll?.whatsapp || "",
+                        Facebook: dataOfAll?.facebook || "",
+                        Instagram: dataOfAll?.instagram || "",
+                        Twitter: dataOfAll?.twitter || "",
+                        LinkedIn: dataOfAll?.linkedin || "",
+                        Email: dataOfAll?.email || "",
+                        Resume: null,
+                        Github: dataOfAll?.github || "",
+                    })
+
+                }).catch((err) => {
+                    toast.info("Data Not Added Yet")
+                })
+                .finally(() => {
+                    setLoadingPage(false)
+                })
+        }
+    }, [])
+
+
+
+    if (LoadingPage) return <LoadingComponent />
+
 
     return (
         <div className="p-2">
@@ -232,6 +349,7 @@ const Body = () => {
                     name="About"
                     onChange={HandleChange}
                     placeholder="Enter About Yourself"
+                    value={Data.About}
                 />
             </div>
 
@@ -363,17 +481,6 @@ const Body = () => {
                     id="Twitter"
                     name="Twitter"
                     placeholder="Enter Your Twitter URL"
-                />
-            </div>
-            <div className="input flex-1 my-2">
-                <label htmlFor="Youtube">Your YouTube:</label>
-                <input
-                    value={Data.Youtube}
-                    onChange={HandleChange}
-                    type="text"
-                    id="Youtube"
-                    name="Youtube"
-                    placeholder="Enter Your YouTube URL"
                 />
             </div>
             <div className="input flex-1 my-2">

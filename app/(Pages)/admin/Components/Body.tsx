@@ -3,6 +3,7 @@ import api from '@/app/axios'
 import LoadingComponent from '@/app/components/Loading'
 import { useApiUserData, UserData } from '@/app/contexts/UseAPIUSER'
 import { useDialogBox } from '@/app/contexts/useDialogBox'
+import { useUserdata } from '@/app/contexts/userdata'
 import React, { useEffect, useState } from 'react'
 import { IoTrashBin } from 'react-icons/io5'
 import { toast } from 'react-toastify'
@@ -44,6 +45,8 @@ const Body = () => {
     const fetched = useApiUserData(s => s.isFetched)
     const CheckFetched = useApiUserData(s => s.Fetched)
 
+    const dataWeNeed = useUserdata(s=>s.user)
+
     useEffect(() => {
         if (!fetched) {
             api.get('/api-user/get-all')
@@ -83,7 +86,7 @@ const Body = () => {
                 password: user.password
             })
 
-            setUser({password:'',username:''})
+            setUser({ password: '', username: '' })
 
             const newuser: UserData = data.data.data
 
@@ -93,15 +96,15 @@ const Body = () => {
 
 
             toast.success('Added succesfully')
-        } catch (error:any) {
-            toast.error(error?.response?.data?.message||error?.message||'Failed adding')
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message || error?.message || 'Failed adding')
         }
-        finally{
+        finally {
             setLoading(false)
         }
     }
 
-    const handleRemoveUser = async (id:Data2) => {
+    const handleRemoveUser = async (id: Data2) => {
         try {
             await api.delete(`/api-user/destroy/${id.id}`)
 
@@ -116,7 +119,7 @@ const Body = () => {
     const showDialog = useDialogBox((s) => s.Show)
 
     const RemoveNotification = (itm: Data2) => {
-        showDialog({ Accept: ()=>handleRemoveUser(itm), Description: `You are About to Remove  this ${itm.username} user are you sure`, Title: `Do you Want to delete ${itm.username}?`, Reject: () => { } })
+        showDialog({ Accept: () => handleRemoveUser(itm), Description: `You are About to Remove  this ${itm.username} user are you sure`, Title: `Do you Want to delete ${itm.username}?`, Reject: () => { } })
 
     }
 
@@ -154,7 +157,7 @@ const Body = () => {
                     onClick={AddUser}
                     className='font-semibold text-sm p-3 rounded cursor-pointer w-full bg-[#000000b6] my-2'
                 >
-                    {Loading?"Adding....":"Add User"}
+                    {Loading ? "Adding...." : "Add User"}
                 </button>
             </div>
             <div className="my-3 bg-[#ffffff05] rounded-xl p-4">
@@ -200,6 +203,55 @@ const Body = () => {
                             )}
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <div className="bg-[#ffffff0c] rounded-xl p-3 my-5 min-h-[12rem] text-white">
+                <h2 className="text-lg font-semibold mb-3">How to call the API</h2>
+
+                <p className="mb-2">🔹 Using <b>Fetch</b>:</p>
+                <pre className="bg-black/40 p-2 rounded-md text-sm overflow-x-auto mb-4">
+                    {`fetch("https://portfolio-helper.vercel.app/api/getmydata/<token>", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    username: "your_username",
+    password: "your_password"
+  })
+})
+  .then(res => res.json())
+  .then(data => console.log(data));`}
+                </pre>
+
+                <p className="mb-2">🔹 Using <b>Axios</b>:</p>
+                <pre className="bg-black/40 p-2 rounded-md text-sm overflow-x-auto">
+                    {`import axios from "axios";
+
+axios.post("https://portfolio-helper.vercel.app/api/getmydata/<token>", {
+  username: "your_username",
+  password: "your_password"
+})
+.then(res => {
+  console.log(res.data);
+});`}
+                </pre>
+                <div className='text-sm font-semibold text-orange-700'>
+                    Token:
+                </div>
+                <div className='flex justify-between items-center flex-wrap'>
+                        <span className='font-semibold text-xs'>
+                        {dataWeNeed.Token}
+                        </span>
+                        <button onClick={()=>{
+                            navigator.clipboard.writeText(dataWeNeed.Token)
+                            .then(()=>{
+                                toast('Copied In Clipboard')
+                            }).catch(()=>{
+                                toast.error(`sorry! Can you select and Copy Please`)
+                            })
+                        }} className='text-xs font-semibol text-orange-600 p-2 cursor-pointer bg-gray-900 rounded'>
+                            Copy
+                        </button>
                 </div>
             </div>
 

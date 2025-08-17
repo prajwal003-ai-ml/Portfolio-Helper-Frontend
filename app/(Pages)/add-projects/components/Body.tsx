@@ -1,10 +1,13 @@
 'use client'
 
+import api from "@/app/axios";
+import { useProjectData } from "@/app/contexts/useProjectsData";
 import React, { useRef, useState } from "react";
 import { FcCancel } from "react-icons/fc";
 import { GiCancel } from "react-icons/gi";
 import { IoAdd, IoImage } from "react-icons/io5";
 import { MdClear } from "react-icons/md";
+import { toast } from "react-toastify";
 
 interface ProjectData {
     Name: string;
@@ -14,7 +17,7 @@ interface ProjectData {
     TechStack: string[];
     Github: string;
     Live: string;
-    ShowAtHome:boolean
+    ShowAtHome: boolean
 }
 
 export default function Body() {
@@ -26,7 +29,7 @@ export default function Body() {
         TechStack: [],
         Github: "",
         Live: "",
-        ShowAtHome:false
+        ShowAtHome: false
     });
 
     const [ImageLink, setImageLink] = useState('')
@@ -74,35 +77,89 @@ export default function Body() {
 
     }
 
-    const HandleAdd = (TechName:string)=>{
-        const arr = [...data.TechStack , TechName]
+    const HandleAdd = (TechName: string) => {
+        const arr = [...data.TechStack, TechName]
 
         setTechName('')
 
-        setData((prev)=>({
+        setData((prev) => ({
             ...prev,
-            TechStack:arr
+            TechStack: arr
         }))
     }
 
-    const RemoveTech = (idx:number)=>{
-        let arr = data.TechStack || [] 
+    const RemoveTech = (idx: number) => {
+        let arr = data.TechStack || []
 
-       arr = arr.filter(((_,id)=>id!==idx))
+        arr = arr.filter(((_, id) => id !== idx))
 
-        setData(p=>({
+        setData(p => ({
             ...p,
-            TechStack:arr
+            TechStack: arr
         }))
     }
 
-    const HandleSubmit = () => {
-        if(Loading){
-            return
+
+
+    const AddProjectInStore = useProjectData(s=>s.addProject)
+
+    const HandleSubmit = async () => {
+        if (Loading) return;
+
+        try {
+            setLoading(true);
+
+            if (!data.Name || !data.Description) {
+                throw new Error('Please Add Some Data');
+            }
+
+            // Create FormData object
+            const formData = new FormData();
+            formData.append("name", data.Name);
+            formData.append("description", data.Description);
+            formData.append("reason", data.Reason);
+            formData.append("github", data.Github);
+            formData.append("live", data.Live);
+            formData.append("isSpecial", String(data.ShowAtHome)); // boolean to string
+
+            // Append techstack array as JSON string
+            formData.append("techstacks", JSON.stringify(data.TechStack));
+
+            // Append image file only if it exists
+            if (data.Image) {
+                formData.append("image", data.Image);
+            }
+
+            // Make API request
+            const newData = await api.post('/create-project', formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+
+            AddProjectInStore(newData.data.data)
+
+            toast.success('Yes!! Added Successfully');
+
+            // Reset form
+            setData({
+                Name: "",
+                Image: null,
+                Description: "",
+                Reason: "",
+                TechStack: [],
+                Github: "",
+                Live: "",
+                ShowAtHome: false
+            });
+            setImageLink('');
+        } catch (error: any) {
+            toast.error(error.message || error?.response?.data?.message || 'Failed adding');
+        } finally {
+            setLoading(false);
         }
-        setLoading(true)
-        console.log(data)
-    }
+    };
+
 
     return (
         <div className="py-3 px-2">
@@ -111,7 +168,7 @@ export default function Body() {
                     <label htmlFor="Name" >
                         Name:
                     </label>
-                    <input type="text" id="Name" name="Name" onChange={handleChange} placeholder="Enter Project Name" />
+                    <input value={data?.Name} type="text" id="Name" name="Name" onChange={handleChange} placeholder="Enter Project Name" />
                 </div>
                 {/* Select Image or Remove Image  */}
 
@@ -126,13 +183,13 @@ export default function Body() {
                     <label htmlFor="Github" >
                         Github:
                     </label>
-                    <input type="text" id="Github" name="Github" onChange={handleChange} placeholder="Enter Github Link" />
+                    <input value={data?.Github} type="text" id="Github" name="Github" onChange={handleChange} placeholder="Enter Github Link" />
                 </div>
                 <div className="input mt-2 flex-1">
                     <label htmlFor="Live" >
                         Live:
                     </label>
-                    <input type="text" id="Live" name="Live" onChange={handleChange} placeholder="Enter Live Link" />
+                    <input value={data?.Live} type="text" id="Live" name="Live" onChange={handleChange} placeholder="Enter Live Link" />
                 </div>
             </div>
             <h2 className="mt-2 font-semibold text-lg text-gray-300">
@@ -144,7 +201,7 @@ export default function Body() {
                         data.TechStack?.map((itm, idx) => {
                             return (
                                 <div key={idx} className="flex gap-2 flex- w-fit bg-[#ffffff11] py-1 px-3 rounded-lg ">
-                                    <span> {itm}</span> <MdClear onClick={()=>{
+                                    <span> {itm}</span> <MdClear onClick={() => {
                                         RemoveTech(idx)
                                     }} size={'1.3rem'} className="cursor-pointer" />
                                 </div>
@@ -153,42 +210,42 @@ export default function Body() {
                     }
                 </div>
                 <div className="border-t outline-none w-full p-2 border-solid border-gray-500 flex gap-2 justify-center items-center">
-                    <input onKeyDown={(e)=>{
-                        if(e.key=='Enter' && TechName){
+                    <input onKeyDown={(e) => {
+                        if (e.key == 'Enter' && TechName) {
                             HandleAdd(TechName)
                         }
-                    }} value={TechName} onChange={(e)=>{
+                    }} value={TechName} onChange={(e) => {
                         setTechName(e.target.value)
                     }} type="text" className="outline-none flex-1" placeholder="Add TechStack and Enter to add to list" />
-                    <IoAdd onClick={()=>{
-                        if(TechName){
+                    <IoAdd onClick={() => {
+                        if (TechName) {
                             HandleAdd(TechName)
                         }
-                    }} size={'1.6rem'} className="cursor-pointer"/>
+                    }} size={'1.6rem'} className="cursor-pointer" />
                 </div>
             </div>
             <div className="input">
                 <label htmlFor="Description">
                     Description:
                 </label>
-                <textarea id="Description" name="Description" onChange={handleChange} placeholder="Enter Project Description" />
+                <textarea value={data?.Description} id="Description" name="Description" onChange={handleChange} placeholder="Enter Project Description" />
             </div>
             <div className="input">
                 <label htmlFor="Reason">
                     Reason:
                 </label>
-                <textarea id="Reason" name="Reason" onChange={handleChange} placeholder="Reason Of Project" />
+                <textarea value={data?.Reason} id="Reason" name="Reason" onChange={handleChange} placeholder="Reason Of Project" />
             </div>
             <div className="mt-2">
-                    <input type="checkbox" id="CheckBox" checked={data.ShowAtHome} onChange={()=>{
-                        setData(p=>({
-                            ...p,
-                            ShowAtHome:!data.ShowAtHome
-                        }))
-                    }} /> <label htmlFor="CheckBox"> Mark as Special</label>
+                <input type="checkbox" id="CheckBox" checked={data.ShowAtHome} onChange={() => {
+                    setData(p => ({
+                        ...p,
+                        ShowAtHome: !data.ShowAtHome
+                    }))
+                }} /> <label htmlFor="CheckBox"> Mark as Special</label>
             </div>
             <button onClick={HandleSubmit} className="p-3 my-4 w-full bg-[#ffffff10] cursor-pointer rounded-xl font-semibold text-sm">
-                {Loading?"Submiting...":'Submit'}
+                {Loading ? "Submiting..." : 'Submit'}
             </button>
         </div>
     );
