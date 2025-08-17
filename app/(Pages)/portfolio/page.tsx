@@ -66,7 +66,7 @@ const page = () => {
 
       <GetInTouch Email={data?.email || "#"} />
 
-       <Footer Facebook={data?.facebook || "#"} Github={data?.github || "#"} Instagram={data?.instagram || "#"} LinkedIn={data?.linkedin || "#"} Phone={data?.aboutimage || "#"} Twitter={data?.twitter || "#"} Whatsapp={data?.whatsapp || "#"}  />
+       <Footer Facebook={data?.facebook || "#"} Github={data?.github || "#"} Instagram={data?.instagram || "#"} LinkedIn={data?.linkedin || "#"} Phone={data?.contact || "#"} Twitter={data?.twitter || "#"} Whatsapp={data?.whatsapp || "#"}  />
 
 
 
